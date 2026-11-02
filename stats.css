@@ -1,0 +1,72 @@
+/* ============================================================
+   stats.css — БЛОК С ЦИФРАМИ (классы StatsSection + StatItem)
+   ============================================================
+   Тёмная полоса с горами на фоне и 4 цифрами.
+   Цифры «досчитывают» от 0 до нужного значения, когда блок
+   появляется на экране (это делает класс CountUpAnimation).
+   ============================================================ */
+
+.stats {
+  position: relative;
+  padding: 80px 0;
+  background-color: var(--color-dark);
+  color: var(--color-text-light);
+  overflow: hidden;
+}
+
+/* Фон: то же фото карьера, но сильно затемнённое — получаются силуэты гор, как в макете */
+.stats__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 35%;
+  filter: grayscale(1) brightness(0.35);   /* чёрно-белое и тёмное */
+  opacity: 0.6;
+}
+
+.stats__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(20, 19, 17, 0.92) 0%, rgba(20, 19, 17, 0.6) 100%);
+}
+
+.stats__list {
+  position: relative;          /* поверх фона */
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+}
+
+.stat-item__value {
+  display: block;
+  font-family: var(--font-serif);
+  font-size: clamp(40px, 4.4vw, 56px);
+  line-height: 1;
+  margin-bottom: 14px;
+  /* Цифры одинаковой ширины → во время отсчёта число не «прыгает» */
+  font-variant-numeric: tabular-nums;
+}
+
+.stat-item__label {
+  display: block;
+  max-width: 220px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--color-text-light-muted);
+}
+
+
+/* ---------- Планшет и телефон: 2 колонки ---------- */
+@media (max-width: 768px) {
+  .stats {
+    padding: 56px 0;
+  }
+
+  .stats__list {
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: 40px;
+  }
+}

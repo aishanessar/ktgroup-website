@@ -1,0 +1,247 @@
+/* ============================================================
+   header.css — ШАПКА САЙТА (класс Header) и ПЕРЕКЛЮЧАТЕЛЬ ЯЗЫКА (класс LanguageSwitcher)
+   ============================================================
+   Поведение шапки:
+     • вверху страницы — прозрачная, поверх фото карьера (как в макете);
+     • при прокрутке вниз JS добавляет класс .header--scrolled → тёмный фон;
+     • на телефоне меню прячется под кнопку-«бургер» (три полоски).
+   ============================================================ */
+
+.header {
+  position: fixed;          /* шапка «прилипает» к верху экрана при прокрутке */
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;             /* z-index: шапка поверх всех остальных блоков */
+  height: var(--header-height);
+  color: var(--color-text-light);
+  background-color: transparent;
+  transition: background-color var(--transition), box-shadow var(--transition);
+}
+
+/* Этот класс добавляет JS (Header.js), когда страница прокручена вниз */
+.header--scrolled {
+  background-color: var(--color-dark);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+/* Внутренний ряд: логотип | меню | язык */
+.header__inner {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+/* ---------- Логотип ---------- */
+.header__logo img {
+  height: 52px;
+  width: auto;              /* ширина подстраивается под высоту, пропорции сохраняются */
+}
+
+/* ---------- Меню ---------- */
+.header__nav {
+  margin-left: auto;        /* auto «отталкивает» меню вправо от логотипа */
+}
+
+.header__menu {
+  display: flex;
+  gap: 36px;                /* расстояние между пунктами меню */
+}
+
+.header__link {
+  position: relative;
+  font-size: 14px;
+  color: var(--color-text-light);
+  opacity: 0.85;
+  transition: opacity var(--transition);
+}
+
+.header__link:hover {
+  opacity: 1;
+}
+
+/* Тонкая линия под пунктом меню при наведении.
+   ::after — «псевдоэлемент»: элемент, который CSS дорисовывает сам, без HTML.
+   Изначально ширина 0, при наведении — 100%. */
+.header__link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 0;
+  height: 1px;
+  background-color: var(--color-accent-hover);
+  transition: width var(--transition);
+}
+
+.header__link:hover::after {
+  width: 100%;
+}
+
+/* ---------- Правая часть: язык + бургер ---------- */
+.header__actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-left: 56px;
+}
+
+/* Бургер на компьютере не нужен */
+.header__burger {
+  display: none;
+  width: 40px;
+  height: 40px;
+  position: relative;
+}
+
+/* Три полоски бургера — это три <span> */
+.header__burger span {
+  position: absolute;
+  left: 9px;
+  width: 22px;
+  height: 1.5px;
+  background-color: currentColor;   /* currentColor = текущий цвет текста */
+  transition: transform var(--transition), opacity var(--transition);
+}
+
+.header__burger span:nth-child(1) { top: 13px; }   /* nth-child(1) = первая полоска */
+.header__burger span:nth-child(2) { top: 19px; }
+.header__burger span:nth-child(3) { top: 25px; }
+
+/* Когда меню открыто — полоски превращаются в крестик ✕ */
+.header--menu-open .header__burger span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.header--menu-open .header__burger span:nth-child(2) { opacity: 0; }
+.header--menu-open .header__burger span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+
+/* ============================================================
+   ПЕРЕКЛЮЧАТЕЛЬ ЯЗЫКА (RU / KZ / EN)
+   ============================================================ */
+.lang-switcher {
+  position: relative;       /* выпадающий список позиционируется относительно этого блока */
+}
+
+.lang-switcher__toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 4px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+
+.lang-switcher__chevron {
+  transition: transform var(--transition);
+}
+
+/* Открытый список → стрелка-«галочка» переворачивается */
+.lang-switcher.is-open .lang-switcher__chevron {
+  transform: rotate(180deg);
+}
+
+/* Выпадающий список: по умолчанию скрыт */
+.lang-switcher__list {
+  position: absolute;
+  top: calc(100% + 8px);    /* calc() — вычисление: «вся высота кнопки + 8px» → список чуть ниже кнопки */
+  right: 0;
+  min-width: 72px;
+  padding: 6px 0;
+  background-color: var(--color-dark-soft);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius);
+  /* Скрыт: прозрачный, сдвинут вверх и «не кликабельный» */
+  opacity: 0;
+  transform: translateY(-4px);
+  pointer-events: none;
+  transition: opacity var(--transition), transform var(--transition);
+}
+
+/* Открыт: класс .is-open добавляет LanguageSwitcher.js */
+.lang-switcher.is-open .lang-switcher__list {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.lang-switcher__option {
+  display: block;
+  width: 100%;
+  padding: 8px 16px;
+  font-size: 13px;
+  text-align: left;
+  color: var(--color-text-light-muted);
+  transition: color var(--transition), background-color var(--transition);
+}
+
+.lang-switcher__option:hover {
+  color: var(--color-text-light);
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Текущий выбранный язык */
+.lang-switcher__option.is-active {
+  color: var(--color-accent-hover);
+}
+
+
+/* ============================================================
+   МОБИЛЬНАЯ ВЕРСИЯ (экран ≤ 1024px)
+   ============================================================ */
+@media (max-width: 1024px) {
+  .header__logo img {
+    height: 42px;
+  }
+
+  /* Показываем бургер */
+  .header__burger {
+    display: block;
+  }
+
+  .header__actions {
+    margin-left: auto;      /* без меню в ряду — прижимаем язык и бургер вправо */
+  }
+
+  /* Меню превращается в выпадающую панель под шапкой */
+  .header__nav {
+    position: absolute;
+    top: var(--header-height);
+    left: 0;
+    right: 0;
+    margin-left: 0;
+    background-color: var(--color-dark);
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    /* Скрыто: высота 0 */
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+  }
+
+  /* Открыто: класс .header--menu-open добавляет Header.js */
+  .header--menu-open .header__nav {
+    max-height: 420px;
+  }
+
+  /* Открытое меню — шапка тоже тёмная, даже вверху страницы */
+  .header--menu-open {
+    background-color: var(--color-dark);
+  }
+
+  /* Пункты меню — столбиком */
+  .header__menu {
+    flex-direction: column;
+    gap: 0;
+    padding: 8px var(--container-padding) 20px;
+  }
+
+  .header__link {
+    display: block;
+    padding: 14px 0;
+    font-size: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .header__link::after {
+    display: none;          /* линия при наведении на телефоне не нужна */
+  }
+}

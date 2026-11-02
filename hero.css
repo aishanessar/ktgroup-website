@@ -1,0 +1,115 @@
+/* ============================================================
+   hero.css — ПЕРВЫЙ ЭКРАН (класс HeroSection)
+   ============================================================
+   Слои (снизу вверх, как стопка листов):
+     1. .hero            — тёмный фон всей секции
+     2. .hero__media     — фото карьера в правой части
+     3. .hero__overlay   — тёмный градиент: плавно переходит от фона к фото
+     4. .hero__content   — текст и кнопка (поверх всего)
+   ============================================================ */
+
+.hero {
+  position: relative;          /* дочерние элементы с position:absolute позиционируются внутри .hero */
+  display: flex;
+  align-items: center;         /* текст по центру по вертикали */
+  min-height: clamp(600px, 92vh, 780px);  /* vh = % высоты экрана: 92vh = 92% высоты окна, но не меньше 600px и не больше 780px */
+  padding-top: var(--header-height);      /* чтобы текст не залез под шапку */
+  background-color: var(--color-dark);
+  color: var(--color-text-light);
+  overflow: hidden;            /* обрезаем всё, что выходит за границы секции */
+}
+
+/* ---------- Слой 2: фото ---------- */
+.hero__media {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 62%;                  /* фото занимает правые 62% ширины, как в макете */
+}
+
+.hero__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;           /* фото заполняет блок целиком без искажения (лишнее обрезается) */
+  object-position: 70% center; /* какую часть фото показывать при обрезке: блоки камня справа */
+  /* Делаем дневное фото чуть темнее и спокойнее по цвету, как в макете.
+     Если захотите исходные яркие цвета — удалите эту строку. */
+  filter: brightness(0.78) saturate(0.7);
+}
+
+/* ---------- Слой 3: градиент ----------
+   linear-gradient(направление, цвет позиция, цвет позиция, …)
+   90deg = слева направо. Слева — сплошной тёмный, к середине — прозрачный. */
+.hero__overlay {
+  position: absolute;
+  inset: 0;                    /* inset: 0 = top:0; right:0; bottom:0; left:0 → растянуть на всю секцию */
+  background:
+    linear-gradient(90deg,
+      var(--color-dark) 0%,
+      var(--color-dark) 38%,
+      rgba(20, 19, 17, 0.75) 50%,
+      rgba(20, 19, 17, 0.15) 75%,
+      rgba(20, 19, 17, 0) 100%),
+    /* второй градиент: лёгкое затемнение сверху, чтобы меню читалось на фоне неба */
+    linear-gradient(180deg, rgba(20, 19, 17, 0.55) 0%, rgba(20, 19, 17, 0) 30%);
+}
+
+/* ---------- Слой 4: текст ---------- */
+.hero__content {
+  position: relative;          /* relative + z-index → текст поверх фото и градиента */
+  z-index: 1;
+}
+
+/* Маленькая строка над заголовком: «ДОБЫЧА • ПРОИЗВОДСТВО …» */
+.hero__eyebrow {
+  font-size: 12px;
+  letter-spacing: 0.14em;      /* разрядка букв */
+  text-transform: uppercase;   /* все буквы заглавные */
+  color: var(--color-text-light-muted);
+  margin-bottom: 24px;
+}
+
+.hero__title {
+  max-width: 600px;
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(36px, 4.6vw, 58px);
+  line-height: 1.15;
+  margin-bottom: 28px;
+}
+
+.hero__text {
+  max-width: 470px;
+  font-size: 16px;
+  color: var(--color-text-light-muted);
+  margin-bottom: 40px;
+}
+
+
+/* ============================================================
+   МОБИЛЬНАЯ ВЕРСИЯ: фото на весь фон, затемнение сильнее
+   ============================================================ */
+@media (max-width: 768px) {
+  .hero {
+    align-items: flex-end;     /* текст прижат к низу экрана */
+    padding-bottom: 56px;
+  }
+
+  .hero__media {
+    width: 100%;
+  }
+
+  /* Градиент снизу вверх: внизу тёмный (там текст), вверху видно фото */
+  .hero__overlay {
+    background: linear-gradient(0deg,
+      var(--color-dark) 0%,
+      rgba(20, 19, 17, 0.88) 45%,
+      rgba(20, 19, 17, 0.35) 100%);
+  }
+
+  .hero__eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+  }
+}

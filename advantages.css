@@ -1,0 +1,82 @@
+/* ============================================================
+   advantages.css — 4 ПРЕИМУЩЕСТВА (классы AdvantagesSection + AdvantageCard)
+   ============================================================ */
+
+.advantages {
+  padding: 56px 0;
+  background-color: var(--color-bg);
+  border-bottom: 1px solid var(--color-line);
+}
+
+/* CSS Grid — сетка: repeat(4, 1fr) = 4 колонки одинаковой ширины.
+   fr («fraction») = доля свободного места. */
+.advantages__list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+/* Одна карточка-преимущество */
+.advantage-card {
+  padding: 8px 32px;
+  border-left: 1px solid var(--color-line);   /* вертикальная линия-разделитель, как в макете */
+}
+
+/* У первой карточки линия слева не нужна */
+.advantage-card:first-child {
+  padding-left: 0;
+  border-left: none;
+}
+
+.advantage-card__icon {
+  display: block;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 20px;
+  color: var(--color-accent);   /* SVG-иконки рисуются цветом currentColor = этот цвет */
+}
+
+.advantage-card__icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.advantage-card__title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.advantage-card__text {
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--color-text-muted);
+}
+
+
+/* ---------- Планшет: 2 колонки ---------- */
+@media (max-width: 1024px) {
+  .advantages__list {
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: 40px;              /* отступ между рядами */
+  }
+
+  /* В двух колонках линия нужна только у правой карточки (2-я, 4-я…).
+     :nth-child(odd) = нечётные (1-я, 3-я) — у них убираем линию и отступ слева. */
+  .advantage-card:nth-child(odd) {
+    padding-left: 0;
+    border-left: none;
+  }
+}
+
+/* ---------- Телефон: 1 колонка ---------- */
+@media (max-width: 600px) {
+  .advantages__list {
+    grid-template-columns: 1fr;
+    row-gap: 32px;
+  }
+
+  .advantage-card {
+    padding: 0;
+    border-left: none;
+  }
+}

@@ -1,0 +1,84 @@
+/* ============================================================
+   footer.css — ПОДВАЛ САЙТА (класс Footer)
+   ============================================================ */
+
+.footer {
+  background-color: var(--color-dark);
+  color: var(--color-text-light);
+  font-size: 13px;
+}
+
+/* Верхняя часть: логотип с описанием слева, колонки ссылок справа */
+.footer__inner {
+  display: grid;
+  grid-template-columns: 1fr 2.4fr;   /* левая часть узкая, правая (колонки) — в 2.4 раза шире */
+  gap: 48px;
+  padding-top: 56px;
+  padding-bottom: 48px;
+}
+
+.footer__logo img {
+  height: 56px;
+  width: auto;
+  margin-bottom: 18px;
+}
+
+.footer__description {
+  max-width: 240px;
+  color: var(--color-text-light-muted);
+  line-height: 1.6;
+}
+
+/* 4 колонки ссылок */
+.footer__columns {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+}
+
+.footer__heading {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.footer__links {
+  display: flex;
+  flex-direction: column;     /* ссылки столбиком */
+  gap: 10px;
+}
+
+.footer__link {
+  color: var(--color-text-light-muted);
+  transition: color var(--transition);
+}
+
+/* У ссылок цвет меняется при наведении; у простого текста (адрес) — нет */
+a.footer__link:hover {
+  color: var(--color-text-light);
+}
+
+/* Нижняя полоса с копирайтом */
+.footer__bottom {
+  padding: 20px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(243, 240, 235, 0.45);
+  font-size: 12px;
+}
+
+
+/* ---------- Планшет ---------- */
+@media (max-width: 1024px) {
+  .footer__inner {
+    grid-template-columns: 1fr;   /* логотип над колонками */
+    gap: 40px;
+  }
+}
+
+/* ---------- Телефон: 2 колонки ссылок ---------- */
+@media (max-width: 600px) {
+  .footer__columns {
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: 36px;
+  }
+}

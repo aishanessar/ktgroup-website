@@ -1,0 +1,202 @@
+/* ============================================================
+   base.css — ОБЩИЕ СТИЛИ всего сайта
+   ============================================================
+   Здесь лежит то, что используют ВСЕ блоки:
+     1. Переменные (цвета, шрифты, отступы)
+     2. Сброс браузерных стилей
+     3. Контейнер (ограничивает ширину контента)
+     4. Кнопки
+     5. Заголовки секций
+     6. Вспомогательные классы
+   ============================================================ */
+
+
+/* ---------- 1. ПЕРЕМЕННЫЕ ----------
+   :root — это «корень» страницы. Переменные, объявленные здесь,
+   доступны во всех CSS-файлах через var(--имя).
+   Плюс: чтобы поменять цвет на всём сайте, достаточно изменить одну строку. */
+:root {
+  /* Цвета (подобраны под макет) */
+  --color-dark:          #141311;  /* почти чёрный — фон шапки, первого экрана, подвала */
+  --color-dark-soft:     #1f1d1a;  /* чуть светлее — для слоёв на тёмном фоне */
+  --color-accent:        #8b7458;  /* «каменный» бежево-коричневый — кнопки, акценты */
+  --color-accent-hover:  #a3896a;  /* акцент при наведении мыши */
+  --color-bg:            #ffffff;  /* белый фон */
+  --color-bg-soft:       #f6f4f0;  /* тёплый светло-серый фон */
+  --color-text:          #1c1b19;  /* основной текст на светлом фоне */
+  --color-text-muted:    #6f6a63;  /* второстепенный текст */
+  --color-text-light:    #f3f0eb;  /* текст на тёмном фоне */
+  --color-text-light-muted: rgba(243, 240, 235, 0.7); /* второстепенный текст на тёмном фоне (70% непрозрачности) */
+  --color-line:          #e4dfd7;  /* тонкие линии-разделители */
+
+  /* Шрифты: если Google Fonts не загрузится, браузер возьмёт следующий в списке */
+  --font-serif: 'PT Serif', Georgia, 'Times New Roman', serif;
+  --font-sans:  'Inter', 'Segoe UI', Arial, sans-serif;
+
+  /* Размеры */
+  --container-width: 1240px;   /* максимальная ширина контента */
+  --container-padding: 24px;   /* отступ контента от краёв экрана */
+  --header-height: 88px;       /* высота шапки */
+  --section-padding: 96px;     /* вертикальный отступ секций */
+  --radius: 2px;               /* скругление углов (в макете почти прямые углы) */
+
+  /* Плавность анимаций: одна переменная для всего сайта */
+  --transition: 0.25s ease;
+}
+
+/* На планшетах и телефонах (ширина экрана ≤ 768px) уменьшаем отступы.
+   @media — «медиа-запрос»: правила внутри работают только при выполнении условия. */
+@media (max-width: 768px) {
+  :root {
+    --container-padding: 18px;
+    --header-height: 72px;
+    --section-padding: 64px;
+  }
+}
+
+
+/* ---------- 2. СБРОС БРАУЗЕРНЫХ СТИЛЕЙ ----------
+   У каждого браузера свои отступы «по умолчанию». Обнуляем их,
+   чтобы сайт выглядел одинаково везде. */
+
+/* * — «все элементы»; ::before/::after — псевдоэлементы.
+   box-sizing: border-box → ширина элемента ВКЛЮЧАЕТ отступы и рамку (так проще считать размеры). */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  /* Плавная прокрутка при клике на ссылку-якорь (например, кнопка «Смотреть продукцию» → #products) */
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  /* Сглаживание шрифтов на Mac */
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Картинки не вылезают за пределы своего контейнера */
+img {
+  display: block;
+  max-width: 100%;
+}
+
+/* Ссылки наследуют цвет текста и не подчёркиваются */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Убираем точки у списков (меню, списки ссылок) */
+ul {
+  list-style: none;
+}
+
+/* Кнопки берут шрифт сайта, а не системный */
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* Секции с id: при переходе по якорю не прячутся под фиксированной шапкой */
+section[id] {
+  scroll-margin-top: var(--header-height);
+}
+
+
+/* ---------- 3. КОНТЕЙНЕР ----------
+   Ограничивает ширину контента и центрирует его на широких экранах. */
+.container {
+  width: 100%;
+  max-width: var(--container-width);
+  margin: 0 auto;                     /* auto слева и справа = по центру */
+  padding: 0 var(--container-padding);
+}
+
+
+/* ---------- 4. КНОПКИ ---------- */
+.button {
+  display: inline-flex;               /* flex: текст и стрелка в одну линию */
+  align-items: center;
+  gap: 32px;                          /* расстояние между текстом и стрелкой */
+  padding: 16px 24px;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  border-radius: var(--radius);
+  transition: background-color var(--transition), transform var(--transition);
+}
+
+/* Основная (заливная) кнопка */
+.button--primary {
+  background-color: var(--color-accent);
+  color: #fff;
+}
+
+.button--primary:hover {
+  background-color: var(--color-accent-hover);
+}
+
+/* Стрелка внутри кнопки сдвигается вправо при наведении */
+.button:hover .button__arrow {
+  transform: translateX(4px);
+}
+
+.button__arrow {
+  transition: transform var(--transition);
+}
+
+/* Видимая рамка при навигации с клавиатуры (Tab) — важно для доступности */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+
+/* ---------- 5. ЗАГОЛОВКИ СЕКЦИЙ ---------- */
+.section-title {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(28px, 3vw, 36px);  /* clamp(мин, желаемый, макс): размер плавно меняется с шириной экрана */
+  line-height: 1.2;
+}
+
+
+/* ---------- 6. ВСПОМОГАТЕЛЬНЫЕ КЛАССЫ ---------- */
+
+/* Скрывает элемент визуально, но оставляет его для экранных дикторов (незрячих посетителей) */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Если посетитель отключил анимации в настройках системы — уважаем это */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

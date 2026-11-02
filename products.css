@@ -1,0 +1,174 @@
+/* ============================================================
+   products.css — НАША ПРОДУКЦИЯ (классы ProductsSection + ProductCard)
+   ============================================================
+   Сначала показываются 4 камня. Остальные имеют класс
+   .products__item--extra и скрыты, пока JS не добавит сетке
+   класс .is-expanded (кнопка «Смотреть всю продукцию»).
+   ============================================================ */
+
+.products {
+  padding: var(--section-padding) 0;
+  background-color: var(--color-bg);
+}
+
+/* Строка: заголовок слева, кнопка справа */
+.products__head {
+  display: flex;
+  align-items: baseline;            /* выравнивание по линии текста */
+  justify-content: space-between;   /* элементы по краям */
+  gap: 16px;
+  flex-wrap: wrap;                  /* на узком экране кнопка переносится под заголовок */
+  margin-bottom: 36px;
+}
+
+/* Кнопка-ссылка «Смотреть всю продукцию →» */
+.products__toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--color-accent);
+  transition: color var(--transition);
+}
+
+.products__toggle:hover {
+  color: var(--color-text);
+}
+
+.products__toggle-icon {
+  transition: transform var(--transition);
+}
+
+/* Когда список раскрыт — стрелка поворачивается вверх */
+.products__toggle[aria-expanded="true"] .products__toggle-icon {
+  transform: rotate(-90deg);
+}
+
+/* Сетка карточек: 4 колонки */
+.products__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+/* Дополнительные камни скрыты… */
+.products__item--extra {
+  display: none;
+}
+
+/* …пока у сетки нет класса .is-expanded */
+.products__grid.is-expanded .products__item--extra {
+  display: block;
+  /* animation: имя длительность плавность → проигрывается один раз при появлении */
+  animation: product-appear 0.45s ease both;
+}
+
+/* @keyframes описывает анимацию по шагам: from (начало) → to (конец) */
+@keyframes product-appear {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* ============================================================
+   КАРТОЧКА КАМНЯ (класс ProductCard)
+   ============================================================ */
+.product-card {
+  position: relative;
+  display: block;
+  aspect-ratio: 1 / 0.95;           /* пропорции карточки: почти квадрат, как в макете */
+  overflow: hidden;
+  border-radius: var(--radius);
+  color: #fff;
+  background-color: var(--color-dark-soft);  /* фон, пока картинка грузится */
+}
+
+/* Фото камня на всю карточку */
+.product-card__image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+/* При наведении фото слегка увеличивается (scale = масштаб) */
+.product-card:hover .product-card__image {
+  transform: scale(1.05);
+}
+
+/* Затемнение снизу, чтобы белый текст читался на светлом камне */
+.product-card__shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg,
+    rgba(14, 13, 12, 0.85) 0%,
+    rgba(14, 13, 12, 0.35) 45%,
+    rgba(14, 13, 12, 0.05) 75%);
+}
+
+/* Текст внизу карточки */
+.product-card__body {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 20px;
+}
+
+.product-card__title {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 21px;
+  line-height: 1.2;
+  margin-bottom: 4px;
+}
+
+/* Нижняя строка: «вид · регион» слева, стрелка справа */
+.product-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.product-card__meta {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.product-card__arrow {
+  transition: transform var(--transition);
+}
+
+.product-card:hover .product-card__arrow {
+  transform: translateX(4px);
+}
+
+
+/* ---------- Планшет: 2 колонки ---------- */
+@media (max-width: 1024px) {
+  .products__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ---------- Маленький телефон: 1 колонка ---------- */
+@media (max-width: 480px) {
+  .products__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .product-card {
+    aspect-ratio: 4 / 3;
+  }
+}

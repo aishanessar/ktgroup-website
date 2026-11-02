@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<!--
+  ============================================================
+  index.html — ГЛАВНАЯ СТРАНИЦА сайта Karavan Temir Group (KT Group)
+  ============================================================
+  Этот файл — только «скелет» страницы:
+    • подключает шрифты и CSS-файлы (оформление);
+    • содержит ПУСТЫЕ контейнеры (<header>, <section> …) с id;
+    • подключает ОДИН JavaScript-файл (js/main.js).
+
+  Всё содержимое (тексты, карточки, цифры) рисуют JS-классы
+  из папки js/components — каждый класс отвечает за свой контейнер.
+  Например, <section id="products"> заполняет класс ProductsSection.
+
+  ВАЖНО: открывать через Live Server (VS Code → «Go Live»),
+  иначе ES6-модули не загрузятся (см. README.md).
+-->
+<html lang="ru">
+<head>
+  <!-- Кодировка: нужна, чтобы кириллица и казахские буквы (ә, ғ, қ, ң, ө, ұ, ү, і) отображались правильно -->
+  <meta charset="UTF-8">
+
+  <!-- Адаптивность: говорит телефону «ширина страницы = ширина экрана», без этого сайт будет мелким на мобильных -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Заголовок вкладки браузера (при смене языка JS его обновит) -->
+  <title>Karavan Temir Group — природный камень</title>
+
+  <!-- Описание для поисковиков (Google, Яндекс) -->
+  <meta name="description" content="Karavan Temir Group (KT Group) — добыча и обработка природного камня (гранит и габбро) в Казахстане. Собственные месторождения и камнеобрабатывающий завод в г. Қонаев.">
+
+  <!-- Иконка во вкладке браузера -->
+  <link rel="icon" type="image/webp" href="images/logo/kt-group-logo.webp">
+
+  <!--
+    ШРИФТЫ из Google Fonts:
+      • PT Serif — заголовки (шрифт с засечками, как в макете);
+      • Inter    — обычный текст.
+    Оба поддерживают казахские буквы.
+    «preconnect» заранее открывает соединение с сервером шрифтов → загрузка быстрее.
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=PT+Serif:wght@400;700&display=swap">
+
+  <!--
+    СТИЛИ: один файл на один блок страницы (так же, как один JS-класс на один блок).
+    base.css идёт первым — в нём общие переменные (цвета, шрифты), которые используют остальные файлы.
+  -->
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/header.css">
+  <link rel="stylesheet" href="css/hero.css">
+  <link rel="stylesheet" href="css/advantages.css">
+  <link rel="stylesheet" href="css/products.css">
+  <link rel="stylesheet" href="css/stats.css">
+  <link rel="stylesheet" href="css/footer.css">
+</head>
+<body>
+
+  <!-- ШАПКА: логотип, меню, переключатель языка → класс Header -->
+  <header id="site-header" class="header"></header>
+
+  <main>
+    <!-- ПЕРВЫЙ ЭКРАН: фото карьера и главный заголовок → класс HeroSection -->
+    <section id="hero" class="hero"></section>
+
+    <!-- 4 ПРЕИМУЩЕСТВА с иконками → класс AdvantagesSection -->
+    <section id="advantages" class="advantages"></section>
+
+    <!-- НАША ПРОДУКЦИЯ: карточки камней → класс ProductsSection -->
+    <section id="products" class="products"></section>
+
+    <!-- ЦИФРЫ (19 лет, 4 месторождения …) → класс StatsSection -->
+    <section id="stats" class="stats"></section>
+  </main>
+
+  <!-- ПОДВАЛ: логотип, ссылки, контакты → класс Footer -->
+  <footer id="site-footer" class="footer"></footer>
+
+  <!-- Сообщение, если у посетителя выключен JavaScript (без него страница пустая) -->
+  <noscript>
+    <p style="padding:2rem;text-align:center">Для работы сайта включите JavaScript.</p>
+  </noscript>
+
+  <!--
+    ЕДИНСТВЕННОЕ подключение JavaScript.
+    type="module" → файл является ES6-модулем: он сам импортирует
+    все остальные классы через import, порядок браузер выстроит сам.
+  -->
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
